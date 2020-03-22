@@ -5,15 +5,15 @@ import java.util.Scanner;
 public class MakeChangeApp {
 	
 	static Scanner kb= new Scanner(System.in);
+	private static double total;
 	
 	public static void main(String[] args) {
 		
 		greeting();
-		kb.hasNextLine();
-		registerSay("Enter the bill total: $???.??");
-		
-		System.out.println("$"+getTotal());
-		
+		kb.nextLine();
+		getTotal();
+		kb.nextLine();
+		takeMoney();
 		
 		kb.close();
 	}
@@ -28,33 +28,71 @@ public class MakeChangeApp {
 		
 		return handedOver;
 	}
-	public static double getTotal() {
+	
+	
+	public static void getTotal() {
+		
+		//FOR TESTING
 		//double total=(Math.random()*100);
-		//int allPennies= (int)(total*100);
-		//double roundedCost= allPennies/100.00;
-		/*
-		 * I am fully aware that this loses precision. This is just to create the total
-		 * that pops up on the cash register.... So this is an 'Office Space' rounding 
-		 * error that only the programmers know about and is theoretically as beneficial
-		 * as it is harmful to the profit... I will just allow the total to be inputed in future
-		 * versions. So this is just my secret. But it's better than just truncating if you ask me.
-		 */
-		//return roundedCost;
 
 		registerSay("Enter the bill total: $???.??");
 		System.out.print("Your Total:  $");
-		double total= kb.nextDouble();
-		
-		
+		total= kb.nextDouble();		
 		//Check to make sure the double is positive
 		while(!isPositive(total)) {
-				registerSay ("The input is negative!", 
-						"Try again!");
-				System.out.println();
-				total= kb.nextDouble();
-		}
-		return total;
+			registerSay ("The input is negative!", 
+					"Try again!");
+			System.out.print("Your Total:  $");
+			total= kb.nextDouble();
+		}				
+		registerSay("Your Total is: $"+toMoney(total));		
 	}
+	
+	public static void takeMoney() {
+		double moneyReceived;
+		registerSay("How much did they", "give you? ");
+		System.out.println("They gave me: $");
+		moneyReceived= kb.nextDouble();
+		
+		if(moneyReceived < total) {
+			registerSay("That is not enough!",
+					"Try Again!");
+			kb.nextDouble();
+		}
+		
+	}
+	
+
+	
+
+	
+	public static int getDollars(double total) {
+		return (int)total;
+		
+	}
+	public static int getPennies(double total) {
+		return (int)(((total+0.005)*100)%100);
+	}
+	public static boolean isPositive(double total) {
+		return (total > 0);
+	}
+	public static long getTotalPennies(double total) {
+		return (long)total*100;
+	}
+	
+	//ROUND Strange Gas Station decimals from inputs
+	public static double toMoney(double num) {
+		int pennies;
+		double money;
+		num+=0.005;
+		
+		pennies= (int)(num * 100);
+		money= pennies/100.00;	
+	
+		return money;
+	}
+	
+	
 	
 	public static void greeting() {
 		System.out.println(" =========================================");
@@ -93,6 +131,7 @@ public class MakeChangeApp {
 		
 	}
 	
+	//Two Lines Overload for registerSay
 	public static void registerSay(String firstLine, String secondLine) {
 		
 		System.out.println();
@@ -117,37 +156,5 @@ public class MakeChangeApp {
 		System.out.println();
 		System.out.println();
 	}
-
 	
-	
-	//For error checking the input
-	public static boolean isPositive(double total) {
-		return (total>0);
-	}
-	
-	public final static void clearConsole()
-	{
-	    try
-	    {
-	        final String os = System.getProperty("os.name");
-
-	        if (os.contains("Windows"))
-	        {
-	            Runtime.getRuntime().exec("cls");
-	        }
-	        else
-	        {
-	            Runtime.getRuntime().exec("clear");
-	        }
-	    }
-	    catch (final Exception e)
-	    {
-	        //  Handle any exceptions.
-	    }
-	}
-	
-//	public static double convertToMoney(double nonMoney) {
-//		
-//	}
-
 }
