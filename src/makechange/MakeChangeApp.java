@@ -45,7 +45,7 @@ public class MakeChangeApp {
 		
 		while(total > received) {
 			System.out.println("That is not enough! Needs to be > $"+total);
-			System.out.println("They gave me: $");
+			System.out.print("They gave me: $");
 			received= toMoney(kb.nextDouble());			
 		}
 		change= toMoney(received - total);
@@ -54,63 +54,70 @@ public class MakeChangeApp {
 	}
 	
 	public static void makeChange() {
-		System.out.print("Give them ");
-		change= change*100;
 		
 		if(change == 0) {
 			System.out.println("You get no change!");
 		}
 		else {
-			while(change > 0) {
+			System.out.print("Give them ");
+			int noPennies;
+			change= (int)(change*100);
+			
+			while(change >= 0.00) {
+				
 				
 				if(change >= 20_00) {
 					int twenties= (int)(change/20_00);
 					System.out.print(twenties+" twenties");
-					change= (change%20_00);
+					change= change%20_00;
 				}
 				else if(change >= 10_00) {
 					int tens= (int)(change/10_00);
 					System.out.print(tens+" tens");
-					change= (change%10_00);
+					change= change%10_00;
 				}
 				else if(change >= 5_00) {
 					int fives= (int)(change/5_00);
 					System.out.print(fives+" fives");
-					change= (change%5_00);
+					change= change%5_00;
 				}
 				else if(change >= 1_00) {
 					int singles= (int)(change/100);
 					System.out.print(singles+" singles");
-					change= (change%1_00);
+					change= change%1_00;
 				}
-				else if(change >= 0_25) {
-					int quarters= (int)(change/0_25);
+				else if(change >= 25) {
+					int quarters= (int)change/25;
 					System.out.print(quarters+" quarters");
-					change= (change%0_25);
+					change= change%25;
 				}
-				else if(change >= 0_10) {
-					int dimes= (int)(change/0_10);
+				else if(change >= 10) {
+					int dimes= (int)(change/10);
 					System.out.print(dimes+" dimes");
-					change= (change%0_10);
+					change= change%10;
 				}
-				else if(change >= 0_05) {
-					int nickles= (int)(change/0_05);
+				else if(change >= 5) {
+					int nickles= (int)(change/5);
 					System.out.print(nickles+" nickles");
-					change= (change%0_05);
+					change= change%0_05;
 				}
 				else if(change >= 1) {
-					int pennies= (int)(change/0_01);
-					System.out.print(pennies+" pennies");
-					change= (change%0_01);
+					System.out.print(change+" pennies");
+					change= 0;
 				}
 				else {
 					System.out.println("Something went wrong somewhere");
+					break;
 				}
 				
-				if(change > 0)
+				noPennies= (int)change;
+				
+				if(noPennies > 0)
 					System.out.print(", ");				
-				else
+				else {
 					System.out.print(".");				
+					break;
+				}
 			
 			}	
 		}
